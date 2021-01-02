@@ -9,8 +9,8 @@ function preload() {
     
     platformImg1 = loadImage("Platform 2.png")
     platformImg2 = loadImage("Platform3.png")
-    commandoImage = loadAnimation("Commando/commando 1.png","Commando/commando 2.png", "Commando/commando 3.png",
-                                    "Commando/commando 4.png","Commando/commando 5.png","Commando/commando 6.png")
+    commandoImage = loadAnimation("commando 1.png","commando 2.png", "commando 3.png",
+                                    "commando 4.png","commando 5.png","commando 6.png")
     commandoDImage = loadAnimation("cD.png");
     commandoJImage = loadAnimation("cJ.png");
     villian1Img = loadAnimation("v1.png","v2.png","v3.png","v4.png","v5.png");
