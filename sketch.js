@@ -9,8 +9,8 @@ function preload() {
     
     platformImg1 = loadImage("Platform 2.png")
     platformImg2 = loadImage("Platform3.png")
-    commandoImage = loadAnimation("commando 1.png","commando 2.png", "commando 3.png",
-                                    "commando 4.png","commando 5.png","commando 6.png")
+    commandoImage = loadAnimation("Commando/commando 1.png","Commando/commando 2.png", "Commando/commando 3.png",
+                                    "Commando/commando 4.png","Commando/commando 5.png","Commando/commando 6.png")
     commandoDImage = loadAnimation("cD.png");
     commandoJImage = loadAnimation("cJ.png");
     villian1Img = loadAnimation("v1.png","v2.png","v3.png","v4.png","v5.png");
@@ -65,7 +65,9 @@ function setup(){
 function draw(){
     background("#EFA588");
     drawSprites();
-    bg.velocityX = -5;
+
+    bg.velocityX = -(5+Math.round(score/10));
+
     commando.x = camera.position.x-200;
 
     fill("black")
@@ -77,11 +79,13 @@ function draw(){
         bg.x = width/2;
     }
     
-        if(gameState==="play"){
+if(gameState==="play"){
 
-    if(keyDown("up")){
-            commando.velocityY = -5;
-    }
+    if(keyDown("up")) {
+                commando.velocityY += -2; 
+        }
+    
+    commando.velocityY += 0.8;
 
     if(keyWentDown("up")) {
         commando.changeAnimation("jump", commandoJImage);
@@ -95,7 +99,7 @@ function draw(){
         commando.y = invisibleGround.y; 
     }
 
-    commando.velocityY += 0.5
+    
     
     if(keyWentDown("space")){
         bullet = createSprite(commando.x+90,commando.y-35, 10,10)
@@ -110,7 +114,7 @@ function draw(){
 
     if(bulletsGroup.isTouching(obstaclesGroup)){
             //obstaclesGroup.setRotationEach(90)
-            changeObstacle(villian1DImg,-7,300);
+            changeObstacle(villian1DImg,-7,500);
             score+= 10;
     }
 
@@ -178,7 +182,7 @@ function spawnPlatforms() {
     if(frameCount % 150 === 0) {
         var y = Math.round(random(200,500));
         platform = createSprite(width, y, 100, 20)
-        platform.velocityX = -7;
+        platform.velocityX = -(7 + Math.round(score/10));
         platform.scale = 0.3;
         platform.lifetime=300;
 
@@ -197,19 +201,23 @@ function spawnPlatforms() {
         obstacle = createSprite(width+50,y-vY,30,100);
         obstacle.addAnimation("villian1", villian1Img);
         obstacle.scale =  0.25;
-        obstacle.velocityX = -7;
+        obstacle.velocityX = platform.velocityX;
         obstacle.lifetime=300;
         obstaclesGroup.add(obstacle);
         }
 }
 function changeObstacle(image, velocity, lifetime) {
+            var v;
+            if(velocity === 0) {
+                v = 0;  }
+            else { v = -(7+Math.round(score/10)); }
             var Vx = obstaclesGroup[0].x;
             var Vy = obstaclesGroup[0].y;
             obstaclesGroup.removeSprites();
-            newObstacle = createSprite(Vx,Vy,30,100)
+            var newObstacle = createSprite(Vx,Vy,30,100)
             newObstacle.addAnimation("dead",image);
             newObstacle.scale=0.25;
-            newObstacle.velocityX = velocity;
+            newObstacle.velocityX = v;
             newObstacle.lifetime = lifetime;
             newObstaclesGroup.add(newObstacle);
         }
